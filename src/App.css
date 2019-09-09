@@ -1,0 +1,69 @@
+.App {
+  height: calc(100% - 57px);
+  color: white;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+div.app {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* SCROLLBARS */
+
+::-webkit-scrollbar {
+  width: 12px;
+  margin-right: 50px;
+}
+
+::-webkit-scrollbar-track {
+  background: #333035;
+  border: 1px solid #1D1B1E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1D1B1E;
+  border: 1px solid #323035;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #151416;
+}
+
+/* FORMS */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: inset 0 0 0 9999px #232326;
+  -webkit-box-shadow: inset 0 0 0px 9999px #262428;
+  -webkit-text-fill-color: white !important;
+  background-clip: content-box;
+  caret-color: white;
+}
+
+input:-internal-autofill-selected {
+  background-color: #262428 !important;
+}
+
+button, a {
+  transition-property: background, box-shadow, color;
+  transition-duration: 0.15s, 0.15s;
+  transition-timing-function: ease-in-out, ease-in-out;
+  transition-delay: 0s, 0s;
+}
+
+button:focus {
+  outline: none;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 300;
+}
