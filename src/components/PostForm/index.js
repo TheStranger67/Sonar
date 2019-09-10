@@ -193,7 +193,7 @@ export default withRouter (withFormik ({
 
   validationSchema: Yup.object ().shape ({
     description: Yup.string ()
-      .required ('Esvreva uma descrição para sua publicação'),
+      .required ('Não é possível enviar uma publicação vazia'),
   }),
 
   handleSubmit: async (values, { setSubmitting, setErrors, props }) => {

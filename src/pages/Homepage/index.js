@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { isAuthenticated, getUserName } from '../../services/auth';
 import { Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostList from '../../components/PostList';
 import { Banner, FilterTabs } from './styles';
 
 export default function Homepage () {
-  const { userName, userToken } = localStorage;
   const [ loading, setLoading ] = useState (true);
   const [ posts, setPosts ] = useState ([]);
 
@@ -45,9 +45,9 @@ export default function Homepage () {
   return (
     <>
       <Banner>
-        {userToken ?
+        {isAuthenticated () ?
           <>
-            <h2> Bem vindo (a), {userName} </h2>
+            <h2> Bem vindo (a), {getUserName ()} </h2>
             <h3> Mostre suas ideias para o mundo agora mesmo! </h3>
             <br/>
             <Link to='/upload' className='opt_link'>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { getToken, getUserID, getUserName } from '../../services/auth';
 import { Tab } from 'react-bootstrap';
 import PostList from '../../components/PostList';
 import { Banner, FilterTabs } from './styles';
 
 export default function Profile () {
-  const { userId, userName, userToken } = localStorage;
   const [ loading, setLoading ] = useState (true);
+  const [ user, setUser ] = useState (null);
   const [ posts, setPosts ] = useState ([]);
 
   useEffect (() => {
@@ -15,15 +16,15 @@ export default function Profile () {
 
   const getUserPosts = async () => {
     try {
-      const response = await api.get ('/user-posts', {
+      const response = await api.get (`/users/${getUserID ()}`, {
         headers: {
-          'Authorization': 'Bearer ' + userToken,
-          'user_id': userId
+          'Authorization': `Bearer ${getToken ()}`
         }
       });
       const { data } = response;
-
-      setPosts (data);
+      
+      setUser (data);
+      setPosts (data.posts);
       setLoading (false);
     } catch (error) {
       console.log (error);
@@ -49,7 +50,7 @@ export default function Profile () {
   return (
     <>
       <Banner>
-        <h2> {userName} </h2>
+        <h2> {getUserName ()} </h2>
         <h3> Veja aqui todas as publicações que voce compartilhou </h3>
       </Banner>
       <FilterTabs justify transition={false} defaultActiveKey='recent'>

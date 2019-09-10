@@ -19,7 +19,10 @@ export const Container = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+
+  div {
+    display: flex;
+  }
 
   h4 {
     color: #ffffff;
@@ -27,6 +30,18 @@ export const Header = styled.div`
     font-weight: 500;
     margin: 0;
   }
+
+  p {
+    color: #bebebe;
+    margin-left: 1rem;
+  }
+`;
+
+export const PostButton = styled.button`
+  color: #ffffff;
+  background: transparent;
+  height: 24px;
+  border: none;
 `;
 
 export const Description = styled.div`
@@ -90,5 +105,11 @@ export const DownloadButton = styled.button`
     background: #0050a5;
     text-decoration: none;
     box-shadow: none;
+  }
+
+  div {
+    width: 20px;
+    height: 25px;
+    margin: -2px 0.9rem;
   }
 `;

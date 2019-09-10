@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../../services/api';
+import { login } from '../../services/auth'
 import { withFormik } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup'
@@ -92,11 +93,9 @@ export default withRouter (withFormik ({
   handleSubmit: async (values, { setSubmitting, setErrors, props }) => {
     try {
       const response = await api.post ('/auth', values);
-      const { data } = response;
+      const { data } = response
       
-      window.localStorage.setItem ('userToken', data.token);
-      window.localStorage.setItem ('userId', data.userId);
-      window.localStorage.setItem ('userName', data.userName);
+      login (data);
       props.history.push ('/');
     } catch (error) {
       setSubmitting (false);

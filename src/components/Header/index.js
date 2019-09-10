@@ -1,4 +1,5 @@
 import React from 'react';
+import { isAuthenticated, logout } from '../../services/auth'
 import { Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
@@ -10,30 +11,8 @@ import {
 } from './styles';
 
 function Header ({ history }) {
-  const handleLogged = () => {
-    if (localStorage.userToken === undefined) {
-      return (
-        <LoginButton to='/login' className='btn_login'> 
-          Entrar
-        </LoginButton> 
-      ) 
-    }
-    return ( 
-      <>  
-        <MenuItem to='/profile'>
-          Meu perfil
-        </MenuItem>
-        <LogoutButton onClick={() => handleLogOut ()}>
-          Sair
-        </LogoutButton>
-      </>
-    )
-  }
-
   const handleLogOut = () => {
-    localStorage.removeItem ('userToken');
-    localStorage.removeItem ('userId');
-    localStorage.removeItem ('userName');
+    logout ();
     history.push ('/');
   }
 
@@ -43,7 +22,20 @@ function Header ({ history }) {
         <h1> Sonar </h1>
       </MenuItem>
       <Nav className='ml-auto'>
-        {handleLogged ()}
+        {isAuthenticated () ? (
+          <>  
+            <MenuItem to='/profile'>
+              Meu perfil
+            </MenuItem>
+            <LogoutButton onClick={() => handleLogOut ()}>
+              Sair
+            </LogoutButton>
+          </>
+        ) : ( 
+          <LoginButton to='/login' className='btn_login'> 
+            Entrar
+          </LoginButton>
+        )}
       </Nav>
     </HeaderBar>
   );
