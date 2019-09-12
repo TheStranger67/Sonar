@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background: #323035;
@@ -37,11 +38,74 @@ export const Header = styled.div`
   }
 `;
 
-export const PostButton = styled.button`
+export const PostOptions = styled.div`
+  position: relative;
+  display: inline-block;
+
+  &:hover div {
+    display: block;
+  }
+
+  button {
+    background: transparent;
+    color: #ffffff;
+    height: 20px;
+    border: none;
+  }
+
+  div {
+    background: #212529;
+    display: none;
+    position: absolute;
+    top: 28px;
+    right: 2px;
+    min-width: 120px;
+    box-shadow: 0px 4px 3px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
+
+    &:before {
+      content: '';
+      background: #212529;
+      position: absolute;
+      top: -6px;
+      left: 101px;
+      width: 14px;
+      height: 14px;
+      z-index: -1;
+      transform: rotate(45deg);
+    }
+  }
+`;
+
+export const DefaultLink = styled(Link)`
   color: #ffffff;
-  background: transparent;
-  height: 24px;
-  border: none;
+  padding: 10px 16px 8px;
+  display: block;
+
+  &:hover {
+    color: #ffffff;
+    background: #0062cc;
+    text-decoration: none;
+  }
+
+  &:first-child {
+    border-radius: 5px 5px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 5px 5px;
+  }
+
+  i {
+    margin-right: 1rem;
+  }
+`;
+
+export const DangerLink = styled(DefaultLink)`
+  &:hover {
+    background: #d64542;
+  }
 `;
 
 export const Description = styled.div`

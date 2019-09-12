@@ -37,6 +37,7 @@ export default function GenreSelect (props) {
         options={options}
         styles={styles('default')}
         classNamePrefix='form_select'
+        defaultValue={props.defaultValue}
         placeholder='Selecione o gênero musical desejado'
         noOptionsMessage={() => 'Nenhuma opção encontrada'}
         onChange={handleChange}

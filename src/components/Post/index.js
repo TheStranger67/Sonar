@@ -8,7 +8,9 @@ import { ReactComponent as Loading } from '../../icons/loading.svg';
 import { 
   Container,
   Header,
-  PostButton,
+  PostOptions,
+  DefaultLink,
+  DangerLink,
   Description,
   Content,
   PostItem,
@@ -49,13 +51,21 @@ export default function Post ({ postData : post }) {
             })}
           </p>
         </div>
-        <div>
-          <PostButton>
-            <i class="fas fa-ellipsis-v"></i>
-          </PostButton>
-        </div>
+        <PostOptions>
+          <button> <i className="fas fa-cog"></i> </button>
+          <div>
+            <DefaultLink to={`/posts/${post.id}`}> 
+              <i className="far fa-edit"></i>
+              Editar
+            </DefaultLink>
+            <DangerLink to='/posts/'>
+              <i className="fas fa-trash-alt"></i>
+              Excluir
+            </DangerLink>
+          </div>
+        </PostOptions>
       </Header>
-
+      
       <Description>
         <p> {post.desc} </p>
       </Description>

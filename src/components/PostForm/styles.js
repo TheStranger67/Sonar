@@ -46,7 +46,7 @@ export const FormField = styled.div`
 
   p {
     color: #f06d6b;
-    margin: 0.4em 0 -10px 1.2rem;
+    margin: 0.1rem 0 -10px 1.2rem;
     font-size: 12px;
   }
 `;
@@ -79,6 +79,7 @@ export const TextField = styled.textarea`
   padding: 0.7rem 1rem;
   resize: none;
   border: none;
+  box-shadow: ${props => props.error ? '0 0 0 1px #D63230' : 'none'};
 
   ::placeholder {
     color: #acacac;

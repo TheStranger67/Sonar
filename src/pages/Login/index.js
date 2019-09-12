@@ -8,9 +8,7 @@ export default function LoginSignup () {
     <Container>
       <FormContainer>
         <h2> Login </h2>
-
         <LoginForm/>
-
         <Link to='/signup'> 
           Criar conta
         </Link>

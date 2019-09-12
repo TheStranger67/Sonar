@@ -5,7 +5,8 @@ import Header from './components/Header';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import PostUpload from './pages/PostUpload';
+import UploadPost from './pages/UploadPost';
+import EditPost from './pages/EditPost';
 import Profile from './pages/Profile';
 import './App.css';
 
@@ -18,7 +19,8 @@ export default function App () {
         <Route path='/login' component={Login}></Route>
         <Route path='/signup' component={Signup}></Route>
         <Route path='/profile' component={Profile}></Route>
-        <Route path='/upload' component={PostUpload}></Route>
+        <Route path='/upload' component={UploadPost}></Route>
+        <Route path='/posts/:pid' component={EditPost}></Route>
       </Container>
     </Router>
   );
