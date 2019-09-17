@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const Banner = styled(Jumbotron)`
   color: #ffffff;
   background: linear-gradient(to right, #d81e5b 0%, #0062cc 100%);
-  margin-bottom: 1.9rem;
+  margin-bottom: 0;
   padding: 2rem 2.7rem 2.7rem;
   text-align: center;
   border-radius: 0;
@@ -27,6 +27,24 @@ export const Banner = styled(Jumbotron)`
       box-shadow: none;
     }
   }
+`;
+
+export const Feed = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0;
+`;
+
+export const Filters = styled.div`
+  background: #323035;
+  color: #ffffff;
+  position: sticky;
+  top: 123px;
+  width: 200px;
+  height: 300px;
+  padding: 10px;
+  margin: 67px 15px;
+  border-radius: 5px;
 `;
 
 export const FilterTabs = styled(Tabs)`

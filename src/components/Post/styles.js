@@ -9,7 +9,7 @@ export const Container = styled.div`
   border-radius: 5px;
   color: #cecece;
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 15px;
   padding: 10px;
 
   &:last-child {

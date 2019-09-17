@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { isAuthenticated, getUserName } from '../../services/auth';
-import { Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostList from '../../components/PostList';
-import { Banner, FilterTabs } from './styles';
+import { Banner, Feed, Filters } from './styles';
 
 export default function Homepage () {
   const [ loading, setLoading ] = useState (true);
@@ -65,20 +64,13 @@ export default function Homepage () {
           </>
         }
       </Banner>
-      <FilterTabs justify transition={false} defaultActiveKey='recent'>
-        <Tab eventKey='recent' title='Mais recentes'>
-          <PostList posts={getFilteredPosts ('recent')} loading={loading}/>
-        </Tab>
-        <Tab eventKey='songs' title='Músicas'>
-          <PostList posts={getFilteredPosts ('songs')} loading={loading}/>
-        </Tab>
-        <Tab eventKey='lyrics' title='Letras'>
-          <PostList posts={getFilteredPosts ('lyrics')} loading={loading}/>
-        </Tab>
-        <Tab eventKey='both' title='Músicas e letras'>
-          <PostList posts={getFilteredPosts ('both')} loading={loading}/>
-        </Tab>
-      </FilterTabs>
+      <Feed>
+        <Filters>
+          <p> Filtrar </p>
+        </Filters>
+
+        <PostList posts={getFilteredPosts ('recent')} loading={loading}/>
+      </Feed>
     </>
   );
 }

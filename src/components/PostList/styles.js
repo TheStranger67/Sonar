@@ -1,30 +1,37 @@
 import styled from 'styled-components';
 
-export const SearchBar = styled.input`
-  color: #cfcfcf;
-  background: #323035;
-  width: 100% !important;
-  margin: 0 0 1.5rem !important;
-  padding: 8px 1.2rem;
-  border: none;
-  border-radius: 25px;
+export const SearchBar = styled.div`
+  background: #212023;
+  position: sticky;
+  top: 56px;
+  padding: 15px 0px;
+  z-index: 5;
 
-  ::placeholder { 
-    color: #bebebe;
-  }
+  input {
+    color: #cfcfcf;
+    background: #323035;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8px 1.2rem;
+    border: none;
+    border-radius: 25px;
 
-  &:focus {
-    color: white;
-    box-shadow: 0 0 0 1px #2684ff;
-    outline: none;
+    ::placeholder { 
+      color: #bebebe;
+    }
+
+    &:focus {
+      color: white;
+      box-shadow: 0 0 0 1px #2684ff;
+      outline: none;
+    }
   }
 `;
 
 export const List = styled.div`
   background: transparent;
-  padding: 0.8rem;
-  margin: 1rem auto 3rem;
-  max-width: 768px;
+  margin-bottom: 3rem;
+  width: 768px;
   height: auto;
 `;
 

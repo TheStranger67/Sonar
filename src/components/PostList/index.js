@@ -29,13 +29,16 @@ export default function PostList ({ posts, loading }) {
   const postList = filterPosts ();
   return (
     <List>
-      <SearchBar
-        name='query'
-        autoComplete='off'
-        placeholder='Pesquisar conteudo'
-        className='search'
-        onChange={e => setQuery (e.target.value)}
-      />
+      <SearchBar>
+        <input
+          name='query'
+          autoComplete='off'
+          placeholder='Pesquisar conteudo'
+          className='search'
+          onChange={e => setQuery (e.target.value)}
+        />
+      </SearchBar>
+      
       {loading ?
         <EmptyItem>
           <div>
