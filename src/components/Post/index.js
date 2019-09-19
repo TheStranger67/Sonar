@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
-import { distanceInWords } from 'date-fns';
+import { distanceInWordsStrict } from 'date-fns';
 import ptbr from 'date-fns/locale/pt';
+import CollapsibleText from 'react-read-more-less';
+import Rating from 'react-rating';
 import download from 'downloadjs';
-import { ReactComponent as Loading } from '../../icons/loading.svg';
+
+import {
+  ReactComponent as Loading
+} from '../../icons/loading.svg';
 
 import { 
   Container,
   Header,
+  AverageRating,
   PostOptions,
   DefaultLink,
   DangerLink,
   Description,
   Content,
   PostItem,
-  DownloadButton
+  DownloadButton,
+  Footer
 } from './styles';
+
 
 export default function Post ({ postData : post }) {
   const [ loading, setLoading ] = useState (false);
@@ -39,49 +47,94 @@ export default function Post ({ postData : post }) {
     
     download (data, lyric.filename);
   }
-  
+
+  const getAverageRating = () => {
+    const avg = post.ratings.length > 0 ?
+      post.ratings.map (rating => {
+        return rating.value;
+      }).reduce ((total, num) => {
+        return total + num;
+      }) / post.ratings.length
+    : null;
+    return Math.round (avg * 10) / 10;
+  }
+
   return (
     <Container>
       <Header>
         <div>
           <h4> {post.user.name} </h4>
           <p>
-            Há {' ' + distanceInWords (post.created_at, new Date (), {
+            Há {' ' + distanceInWordsStrict (post.created_at, new Date (), {
               locale: ptbr
             })}
           </p>
         </div>
-        <PostOptions>
-          <button> <i className="fas fa-cog"></i> </button>
-          <div>
-            <DefaultLink to={`/posts/${post.id}`}> 
-              <i className="far fa-edit"></i>
-              Editar
-            </DefaultLink>
-            <DangerLink to='/posts/'>
-              <i className="fas fa-trash-alt"></i>
-              Excluir
-            </DangerLink>
-          </div>
-        </PostOptions>
+        
+        <div>
+          <AverageRating>
+            {post.ratings.length > 0 ?
+              <>
+                <p>
+                  {`1 avaliação`}
+                </p>
+
+                <Rating
+                  readonly={true}
+                  fractions={10}
+                  initialRating={getAverageRating ()}
+                  emptySymbol={<i className='fas fa-star' style={{color: '#bebebe'}}></i>}
+                  fullSymbol={<i className='fas fa-star' style={{color: '#E6C229'}}></i>}
+                />
+                <p> {getAverageRating ()} </p>
+              </>
+              : <p style={{color: '#bebebe', marginRight: 0}}> 
+                  Nenhuma avaliação
+                </p>
+            }
+          </AverageRating>
+          
+          {post.user.id.toString () === localStorage.userID && (
+            <PostOptions>
+              <button> <i className="fas fa-cog"></i> </button>
+              <div>
+                <DefaultLink to={`/posts/${post.id}`}> 
+                  <i className="far fa-edit"></i>
+                  Editar
+                </DefaultLink>
+                <DangerLink to='/posts/'>
+                  <i className="fas fa-trash-alt"></i>
+                  Excluir
+                </DangerLink>
+              </div>
+            </PostOptions>
+          )}
+        </div>
       </Header>
       
       <Description>
-        <p> {post.desc} </p>
+        <CollapsibleText
+          charLimit={150}
+          readMoreText=' mais'
+          readLessText=' menos'
+        >
+          {post.desc}
+        </CollapsibleText>
       </Description>
 
       <Content>
         {post.songs.length > 0 && (
           <PostItem>
-            <p> Música </p>
+            <div>
+              <div>
+                <i className="fas fa-music"></i>
+                <p> {post.songs[0].name} </p>
+              </div>
 
-            <div>
-              <strong> Nome: </strong>
-              <p> {post.songs[0].name} </p>
-            </div>
-            <div>
-              <strong> Gênero musical: </strong>
-              <p> {post.songs[0].genre} </p>
+              <div>
+                <i className="fas fa-headphones"></i>
+                <p> {post.songs[0].genre} </p>
+              </div>
             </div>
 
             <DownloadButton
@@ -91,7 +144,7 @@ export default function Post ({ postData : post }) {
                 ? <div>
                     <Loading/>
                   </div>
-                : 'Baixar'
+                : <i className="fas fa-download"></i>
               }
             </DownloadButton>
           </PostItem>
@@ -99,15 +152,16 @@ export default function Post ({ postData : post }) {
 
         {post.lyrics.length > 0 && (
           <PostItem>
-            <p> Letra </p>
+            <div>
+              <div>
+                <i className="fas fa-file-alt"></i>
+                <p> {post.lyrics[0].name} </p>
+              </div>
 
-            <div>
-              <strong> Nome: </strong>
-              <p> {post.lyrics[0].name} </p>
-            </div>
-            <div>
-              <strong> Gênero musical: </strong>
-              <p> {post.lyrics[0].genre} </p>
+              <div>
+                <i className="fas fa-headphones"></i>
+                <p> {post.lyrics[0].genre} </p>
+              </div>
             </div>
             
             <DownloadButton
@@ -117,12 +171,16 @@ export default function Post ({ postData : post }) {
                 ? <div>
                     <Loading/>
                   </div>
-                : 'Baixar'
+                : <i className="fas fa-download"></i>
               }
             </DownloadButton>
           </PostItem>
         )}
       </Content>
+
+      <Footer>
+
+      </Footer>
     </Container>
   );
 }

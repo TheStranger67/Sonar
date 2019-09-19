@@ -1,4 +1,4 @@
-import { Jumbotron, Tabs } from 'react-bootstrap';
+import { Jumbotron } from 'react-bootstrap';
 import styled from 'styled-components';
 
 
@@ -33,50 +33,4 @@ export const Feed = styled.div`
   display: flex;
   justify-content: center;
   margin: 0;
-`;
-
-export const Filters = styled.div`
-  background: #323035;
-  color: #ffffff;
-  position: sticky;
-  top: 123px;
-  width: 200px;
-  height: 300px;
-  padding: 10px;
-  margin: 67px 15px;
-  border-radius: 5px;
-`;
-
-export const FilterTabs = styled(Tabs)`
-  max-width: 650px;
-  margin: auto;
-  border: none;
-  border-radius: 25px;
-
-  &.nav-tabs .nav-link:hover {
-      color: white;
-      border: none;
-    }
-
-  &.nav-tabs .nav-link.active {
-    color: #ffffff;
-    background-color: #0062cc;
-    border: none;
-    box-shadow: none;
-  }
-
-  a {
-    color: #bebebe;
-    background: #323035;
-    text-align: center;
-    margin: 0 7px !important;
-    border: none !important;
-    border-radius: 25px !important;
-    padding: 9px 1em 7px;
-    box-shadow: 0 0 0 1px #ffffff40;
-
-    &:hover {
-      background: #29272B;
-    }
-  }
 `;

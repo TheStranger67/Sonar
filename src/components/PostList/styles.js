@@ -31,7 +31,7 @@ export const SearchBar = styled.div`
 export const List = styled.div`
   background: transparent;
   margin-bottom: 3rem;
-  width: 768px;
+  width: 640px;
   height: auto;
 `;
 

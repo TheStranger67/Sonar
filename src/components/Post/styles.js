@@ -10,7 +10,7 @@ export const Container = styled.div`
   color: #cecece;
   width: 100%;
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 8px;
 
   &:last-child {
     margin-bottom: 0;
@@ -20,6 +20,7 @@ export const Container = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1rem;
 
   div {
     display: flex;
@@ -27,20 +28,46 @@ export const Header = styled.div`
 
   h4 {
     color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
+    flex-shrink: 0;
+    font-size: 14px;
+    margin: 2px 0;
   }
 
   p {
     color: #bebebe;
-    margin-left: 1rem;
+    margin: 0px 0px 0px 1rem;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+`;
+
+export const AverageRating = styled.div`
+  margin-right: 0.2rem;
+
+  p:first-child {
+    margin-right: 0.8rem;
+  }
+
+  p:last-child {
+    color: #ffffff;
+    margin-left: 10px;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 3px;
+
+    p:first-child {
+      margin-left: 0;
+    }
   }
 `;
 
 export const PostOptions = styled.div`
   position: relative;
   display: inline-block;
+  margin-left: 0.3rem;
 
   &:hover div {
     display: block;
@@ -49,7 +76,7 @@ export const PostOptions = styled.div`
   button {
     background: transparent;
     color: #ffffff;
-    height: 20px;
+    padding-right: 3px;
     border: none;
   }
 
@@ -57,7 +84,7 @@ export const PostOptions = styled.div`
     background: #212529;
     display: none;
     position: absolute;
-    top: 28px;
+    top: 27px;
     right: 2px;
     min-width: 120px;
     box-shadow: 0px 4px 3px 0px rgba(0,0,0,0.2);
@@ -68,13 +95,28 @@ export const PostOptions = styled.div`
       content: '';
       background: #212529;
       position: absolute;
-      top: -6px;
-      left: 101px;
-      width: 14px;
-      height: 14px;
+      top: -4px;
+      left: 106px;
+      width: 10px;
+      height: 10px;
       z-index: -1;
       transform: rotate(45deg);
     }
+
+    &:after {
+      content: '';
+      background: transparent;
+      position: absolute;
+      top: -12px;
+      left: 10px;
+      width: 100px;
+      height: 80px;
+      z-index: -5;
+    }
+  }
+
+  @media (max-width: 767px) {
+    margin: -19px 0px 0px auto;
   }
 `;
 
@@ -110,7 +152,7 @@ export const DangerLink = styled(DefaultLink)`
 
 export const Description = styled.div`
   word-break: break-word;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   p { margin: 0; }
 `;
@@ -130,22 +172,30 @@ export const Content = styled.div`
 export const PostItem = styled.div`
   background: #434047aa;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   text-align: left;
   border: 1px solid #ffffff05;
-  padding: 10px;
+  padding: 8px 8px 6px;
   border-radius: 5px;
-
-  & > p {
-    font-size: 16px;
-    font-weight: 500;
-  }
 
   div {
     display: flex;
+    flex-direction: column;
+    
+    div {
+      flex-direction: row;
 
-    strong { margin-right: 10px; }
-    p { margin: 0; }
+      i { 
+        height: auto;
+        margin: 2px 10px 0px 0px;
+      }
+
+      p { margin: 0; }
+
+      &:first-child {
+        margin-bottom: 2px;
+      }
+    }
   }
 
   @media (max-width: 767px) {
@@ -158,22 +208,25 @@ export const PostItem = styled.div`
 export const DownloadButton = styled.button`
   color: #ffffff;
   background: #0062cc;
-  width: max-content;
-  margin-top: 1.5rem;
-  padding: 9px 1.5rem 7px;
+  align-self: center;
+  width: 37px;
+  height: 37px;
+  padding: auto;
   border: none;
-  border-radius: 25px;
-  font-weight: 500;
+  border-radius: 50%;
 
   &:hover {
     background: #0050a5;
-    text-decoration: none;
     box-shadow: none;
   }
 
   div {
-    width: 20px;
+    width: 19px;
     height: 25px;
-    margin: -2px 0.9rem;
+    margin-left: 3px;
   }
+`;
+
+export const Footer = styled.div`
+  display: flex;
 `;

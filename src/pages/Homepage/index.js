@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { isAuthenticated, getUserName } from '../../services/auth';
 import { Link } from 'react-router-dom';
+import Filters from '../../components/Filters';
 import PostList from '../../components/PostList';
-import { Banner, Feed, Filters } from './styles';
+import { Banner, Feed } from './styles';
 
 export default function Homepage () {
   const [ loading, setLoading ] = useState (true);
   const [ posts, setPosts ] = useState ([]);
+  const [ filteredPosts, setFilteredPosts ] = useState ([]);
 
   useEffect (() => {
     getPosts ();
@@ -19,26 +21,11 @@ export default function Homepage () {
       const { data } = response;
 
       setPosts (data);
+      setFilteredPosts (data);
       setLoading (false);
     } catch (error) {
       console.log (error);
     }
-  }
-
-  const getFilteredPosts = type => {
-    const filtered = posts.filter (post => {
-      const { songs, lyrics } = post
-      switch (type) {
-        case 'songs':
-          return songs.length > 0 && lyrics.length === 0;
-        case 'lyrics': 
-          return lyrics.length > 0 && songs.length === 0;
-        case 'both': 
-          return songs.length > 0 && lyrics.length > 0;
-        default: return post;
-      }
-    });
-    return filtered;
   }
 
   return (
@@ -64,12 +51,16 @@ export default function Homepage () {
           </>
         }
       </Banner>
+      
       <Feed>
-        <Filters>
-          <p> Filtrar </p>
-        </Filters>
+        <Filters 
+          posts={posts}
+          onChange={filteredPosts => setFilteredPosts (filteredPosts)}
+        />
 
-        <PostList posts={getFilteredPosts ('recent')} loading={loading}/>
+        <PostList posts={filteredPosts} loading={loading}/>
+
+        <div style={{width: 230}}></div>
       </Feed>
     </>
   );
