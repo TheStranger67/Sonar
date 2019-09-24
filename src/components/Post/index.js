@@ -48,17 +48,6 @@ export default function Post ({ postData : post }) {
     download (data, lyric.filename);
   }
 
-  const getAverageRating = () => {
-    const avg = post.ratings.length > 0 ?
-      post.ratings.map (rating => {
-        return rating.value;
-      }).reduce ((total, num) => {
-        return total + num;
-      }) / post.ratings.length
-    : null;
-    return Math.round (avg * 10) / 10;
-  }
-
   return (
     <Container>
       <Header>
@@ -76,21 +65,21 @@ export default function Post ({ postData : post }) {
             {post.ratings.length > 0 ?
               <>
                 <p>
-                  {`1 avaliação`}
+                  {post.ratings.length > 1 
+                    ? `${post.ratings.length} avaliações`
+                    : `1 avaliação`}
                 </p>
 
                 <Rating
                   readonly={true}
                   fractions={10}
-                  initialRating={getAverageRating ()}
+                  initialRating={post.average_rating}
                   emptySymbol={<i className='fas fa-star' style={{color: '#bebebe'}}></i>}
                   fullSymbol={<i className='fas fa-star' style={{color: '#E6C229'}}></i>}
                 />
-                <p> {getAverageRating ()} </p>
+                <p> {post.average_rating} </p>
               </>
-              : <p style={{color: '#bebebe', marginRight: 0}}> 
-                  Nenhuma avaliação
-                </p>
+              : null
             }
           </AverageRating>
           

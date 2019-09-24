@@ -35,6 +35,13 @@ export const List = styled.div`
   height: auto;
 `;
 
+export const Loader = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 65px;
+  margin-top: 30px;
+`;
+
 export const EmptyItem = styled.div`
   color: #bebebe;
   background: #323035;

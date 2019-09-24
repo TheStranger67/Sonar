@@ -11,6 +11,7 @@ export default function Filters ({ posts, onChange }) {
   useEffect (() => {
     filterPosts ();
   }, [
+    posts,
     filterBySongs,
     filterByLyrics,
     orderByRatings,
@@ -18,60 +19,19 @@ export default function Filters ({ posts, onChange }) {
     orderByOldest
   ])
 
-  const hasSongs = post => {
-    return post.songs.length > 0; 
-  }
-
-  const hasLyrics = post => {
-    return post.lyrics.length > 0; 
-  }
-
-  const getAverageRating = post => {
-    const avg = post.ratings.length > 0 ?
-      post.ratings.map (rating => {
-        return rating.value;
-      }).reduce ((total, num) => {
-        return total + num;
-      }) / post.ratings.length
-    : 0;
-    return Math.round (avg * 10) / 10;
-  }
-
   const filterPosts = () => {
-    let filtered = posts;
+    let content = '';
+    let order = '';
 
-    if (filterBySongs) 
-      filtered = filtered.filter (post => {
-        if (filterByLyrics)
-          return hasSongs (post) && hasLyrics (post);
-        return hasSongs (post) && (!hasLyrics (post));
-      });
+    if (filterBySongs) content = '&content=songs';
+    if (filterByLyrics) content = '&content=lyrics';
+    if (filterBySongs && filterByLyrics) content = '&content=both';
     
-    if (filterByLyrics)
-      filtered = filtered.filter (post => {
-        if (filterBySongs)
-          return hasLyrics (post) && hasSongs (post);
-        return hasLyrics (post) && (!hasSongs (post));
-      });
+    if (orderByRatings) order = '&order=ratings';
+    if (orderByOldest) order = '&order=old';
+    if (orderByRecent) order = '';
 
-    if (orderByRatings)
-      filtered = [...filtered].sort ((a, b) => {
-        return getAverageRating (b) - getAverageRating (a);
-      })
-
-    if (orderByOldest) {
-      filtered = [...filtered].sort ((a, b) => {
-        return new Date (a.created_at) - new Date (b.created_at)
-      })
-    }
-
-    if (orderByRecent) {
-      filtered = [...filtered].sort ((a, b) => {
-        return new Date (b.created_at) - new Date (a.created_at)
-      })
-    }
-
-    onChange (filtered);
+    onChange (`${content + order}`);
   }
 
   return (

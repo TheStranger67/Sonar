@@ -12,7 +12,7 @@ export const Container = styled.div`
   border-radius: 5px;
 
   h3 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     margin-bottom: 1.2rem;
   }
@@ -23,7 +23,6 @@ export const FilterGroup = styled.div`
 
   h4 {
     font-size: 14px;
-    font-weight: bold;
     margin-bottom: 1rem;
   }
 
@@ -83,7 +82,12 @@ export const Filter = styled.label`
   }
 
   p {
+    color: #cecece;
     padding-left: 5px;
     margin: 1px 0 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;

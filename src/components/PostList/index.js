@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Post from '../Post';
 import { ReactComponent as LoadingAnimation } from '../../icons/loading.svg';
-import { SearchBar, List, EmptyItem } from './styles'; 
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { SearchBar, List, Loader, EmptyItem } from './styles'; 
 
-export default function PostList ({ posts, loading }) {
+export default function PostList ({ posts, loading, onScroll, isLastPage }) {
   const [ query, setQuery ] = useState ('');
 
   const filterPosts = () => {
@@ -47,9 +48,21 @@ export default function PostList ({ posts, loading }) {
         </EmptyItem>
       : posts.length > 0 ?
         postList.length > 0 ?
-          postList.map (post => (
-            <Post key={post.id} postData={post} />
-          ))
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={onScroll}
+            hasMore={!isLastPage}
+            loader={
+              <Loader>
+                <LoadingAnimation/>
+              </Loader>
+            }
+            endMessage={<></>}
+          >
+            {postList.map (post => (
+              <Post key={post.id} postData={post} />
+            ))}
+          </InfiniteScroll>
         : <EmptyItem>
             <p> Não foi encontrado nenhum resultado para sua pesquisa </p>
           </EmptyItem>

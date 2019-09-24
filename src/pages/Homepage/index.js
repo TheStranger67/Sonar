@@ -7,25 +7,41 @@ import PostList from '../../components/PostList';
 import { Banner, Feed } from './styles';
 
 export default function Homepage () {
-  const [ loading, setLoading ] = useState (true);
   const [ posts, setPosts ] = useState ([]);
-  const [ filteredPosts, setFilteredPosts ] = useState ([]);
+  const [ loading, setLoading ] = useState (true);
+  const [ filters, setFilters ] = useState ('');
+  const [ info, setInfo ] = useState ({});
 
   useEffect (() => {
     getPosts ();
   }, []);
 
-  const getPosts = async () => {
-    try {
-      const response = await api.get ('/posts');
-      const { data } = response;
+  useEffect (() => {
+    setLoading (true);
+    getPosts (1, filters);
+  }, [filters]);
 
-      setPosts (data);
-      setFilteredPosts (data);
+  const getPosts = async (pageNumber = 1, filters = '') => {
+    try {
+      const response = await api.get (`/posts?page=${pageNumber}${filters}`);
+      const { data, ...info } = response.data;
+
+      pageNumber > 1 ? setPosts ([...posts, ...data]) : setPosts (data);
+      setInfo (info)
       setLoading (false);
     } catch (error) {
       console.log (error);
     }
+  }
+
+  const handleScroll = () => {
+    if (isLastPage ()) return;
+    const pageNumber = info.page + 1;
+    getPosts (pageNumber, filters);
+  }
+
+  const isLastPage = () => {
+    return info.lastPage === info.page;
   }
 
   return (
@@ -53,12 +69,14 @@ export default function Homepage () {
       </Banner>
       
       <Feed>
-        <Filters 
-          posts={posts}
-          onChange={filteredPosts => setFilteredPosts (filteredPosts)}
-        />
+        <Filters onChange={filters => setFilters (filters)}/>
 
-        <PostList posts={filteredPosts} loading={loading}/>
+        <PostList 
+          posts={posts}
+          loading={loading}
+          onScroll={handleScroll}
+          isLastPage={isLastPage ()}
+        />
 
         <div style={{width: 230}}></div>
       </Feed>
