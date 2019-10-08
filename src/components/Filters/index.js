@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, FilterGroup, Filter } from './styles';
 
-export default function Filters ({ posts, onChange }) {
+export default function Filters ({ onChange }) {
   const [ filterBySongs, setFilterBySongs ] = useState (false);
   const [ filterByLyrics, setFilterByLyrics ] = useState (false);
   const [ orderByRatings, setOrderByRatings ] = useState (false);
@@ -11,7 +11,6 @@ export default function Filters ({ posts, onChange }) {
   useEffect (() => {
     filterPosts ();
   }, [
-    posts,
     filterBySongs,
     filterByLyrics,
     orderByRatings,
@@ -31,16 +30,14 @@ export default function Filters ({ posts, onChange }) {
     if (orderByOldest) order = '&order=old';
     if (orderByRecent) order = '';
 
-    onChange (`${content + order}`);
+    onChange (content + order);
   }
 
   return (
     <Container>
       <h3> Filtrar publicações </h3>
-
       <FilterGroup>
         <h4> Ordenar por... </h4>
-
         <Filter>
           <input
             type='radio'
@@ -54,7 +51,6 @@ export default function Filters ({ posts, onChange }) {
           />
           <p> Melhor avaliadas </p>
         </Filter>
-
         <Filter>
           <input
             type='radio'
@@ -68,7 +64,6 @@ export default function Filters ({ posts, onChange }) {
           />
           <p> Mais recentes </p>
         </Filter>
-
         <Filter>
           <input
             type='radio'
@@ -83,10 +78,8 @@ export default function Filters ({ posts, onChange }) {
           <p> Mais antigas </p>
         </Filter>
       </FilterGroup>
-      
       <FilterGroup>
         <h4> Conteúdo </h4>
-
         <Filter>
           <input
             type='checkbox'
@@ -95,7 +88,6 @@ export default function Filters ({ posts, onChange }) {
           />
           <p> Músicas </p>
         </Filter>
-
         <Filter>
           <input
             type='checkbox'

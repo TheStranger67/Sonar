@@ -10,7 +10,8 @@ export default function Homepage () {
   const [ posts, setPosts ] = useState ([]);
   const [ loading, setLoading ] = useState (true);
   const [ filters, setFilters ] = useState ('');
-  const [ info, setInfo ] = useState ({});
+  const [ page, setPage ] = useState (1);
+  const [ lastPage, setLastPage ] = useState (0);
 
   useEffect (() => {
     getPosts ();
@@ -21,27 +22,22 @@ export default function Homepage () {
     getPosts (1, filters);
   }, [filters]);
 
-  const getPosts = async (pageNumber = 1, filters = '') => {
+  const getPosts = async (pageNumber = page, _filters = filters) => {
     try {
-      const response = await api.get (`/posts?page=${pageNumber}${filters}`);
-      const { data, ...info } = response.data;
+      const response = await api.get (`/posts?page=${pageNumber}${_filters}`);
+      const { data, lastPage } = response.data;
 
       pageNumber > 1 ? setPosts ([...posts, ...data]) : setPosts (data);
-      setInfo (info)
+      setPage (pageNumber + 1);
+      setLastPage (lastPage);
       setLoading (false);
     } catch (error) {
       console.log (error);
     }
   }
 
-  const handleScroll = () => {
-    if (isLastPage ()) return;
-    const pageNumber = info.page + 1;
-    getPosts (pageNumber, filters);
-  }
-
   const isLastPage = () => {
-    return info.lastPage === info.page;
+    return lastPage && page > lastPage;
   }
 
   return (
@@ -74,7 +70,7 @@ export default function Homepage () {
         <PostList 
           posts={posts}
           loading={loading}
-          onScroll={handleScroll}
+          onScroll={() => getPosts ()}
           isLastPage={isLastPage ()}
         />
 

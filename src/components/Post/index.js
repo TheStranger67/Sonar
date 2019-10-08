@@ -5,6 +5,7 @@ import ptbr from 'date-fns/locale/pt';
 import CollapsibleText from 'react-read-more-less';
 import Rating from 'react-rating';
 import download from 'downloadjs';
+import RatingModal from '../RatingModal';
 
 import {
   ReactComponent as Loading
@@ -24,9 +25,9 @@ import {
   Footer
 } from './styles';
 
-
 export default function Post ({ postData : post }) {
   const [ loading, setLoading ] = useState (false);
+  const [ showRatingModal, setShowRatingModal ] = useState (false);
 
   const handleSongDownload = async song => {
     setLoading (true)
@@ -59,40 +60,36 @@ export default function Post ({ postData : post }) {
             })}
           </p>
         </div>
-        
         <div>
           <AverageRating>
-            {post.ratings.length > 0 ?
+            {post.ratings.length > 0 && (
               <>
                 <p>
                   {post.ratings.length > 1 
                     ? `${post.ratings.length} avaliações`
                     : `1 avaliação`}
                 </p>
-
                 <Rating
                   readonly={true}
                   fractions={10}
                   initialRating={post.average_rating}
-                  emptySymbol={<i className='fas fa-star' style={{color: '#bebebe'}}></i>}
-                  fullSymbol={<i className='fas fa-star' style={{color: '#E6C229'}}></i>}
+                  emptySymbol={<i className='fas fa-star' style={{color: '#bebebe'}}/>}
+                  fullSymbol={<i className='fas fa-star' style={{color: '#E6C229'}}/>}
                 />
                 <p> {post.average_rating} </p>
               </>
-              : null
-            }
+            )}
           </AverageRating>
-          
           {post.user.id.toString () === localStorage.userID && (
             <PostOptions>
-              <button> <i className="fas fa-cog"></i> </button>
+              <button> <i className="fas fa-cog"/> </button>
               <div>
                 <DefaultLink to={`/posts/${post.id}`}> 
-                  <i className="far fa-edit"></i>
+                  <i className="far fa-edit"/>
                   Editar
                 </DefaultLink>
                 <DangerLink to='/posts/'>
-                  <i className="fas fa-trash-alt"></i>
+                  <i className="fas fa-trash-alt"/>
                   Excluir
                 </DangerLink>
               </div>
@@ -100,7 +97,6 @@ export default function Post ({ postData : post }) {
           )}
         </div>
       </Header>
-      
       <Description>
         <CollapsibleText
           charLimit={150}
@@ -110,22 +106,19 @@ export default function Post ({ postData : post }) {
           {post.desc}
         </CollapsibleText>
       </Description>
-
       <Content>
         {post.songs.length > 0 && (
           <PostItem>
             <div>
               <div>
-                <i className="fas fa-music"></i>
+                <i className="fas fa-music"/>
                 <p> {post.songs[0].name} </p>
               </div>
-
               <div>
-                <i className="fas fa-headphones"></i>
+                <i className="fas fa-headphones"/>
                 <p> {post.songs[0].genre} </p>
               </div>
             </div>
-
             <DownloadButton
               onClick={() => handleSongDownload (post.songs[0])}
             > 
@@ -133,7 +126,7 @@ export default function Post ({ postData : post }) {
                 ? <div>
                     <Loading/>
                   </div>
-                : <i className="fas fa-download"></i>
+                : <i className="fas fa-download"/>
               }
             </DownloadButton>
           </PostItem>
@@ -143,16 +136,14 @@ export default function Post ({ postData : post }) {
           <PostItem>
             <div>
               <div>
-                <i className="fas fa-file-alt"></i>
+                <i className="fas fa-file-alt"/>
                 <p> {post.lyrics[0].name} </p>
               </div>
-
               <div>
-                <i className="fas fa-headphones"></i>
+                <i className="fas fa-headphones"/>
                 <p> {post.lyrics[0].genre} </p>
               </div>
             </div>
-            
             <DownloadButton
               onClick={() => handleLyricDownload (post.lyrics[0])}
             > 
@@ -160,33 +151,24 @@ export default function Post ({ postData : post }) {
                 ? <div>
                     <Loading/>
                   </div>
-                : <i className="fas fa-download"></i>
+                : <i className="fas fa-download"/>
               }
             </DownloadButton>
           </PostItem>
         )}
       </Content>
-
       <Footer>
-
+        <button onClick={() => setShowRatingModal (true)}>
+          <i className='fas fa-star' style={{color: '#E6C229'}}/>
+          Avaliar
+        </button>
       </Footer>
+      {showRatingModal && (
+        <RatingModal
+          show={showRatingModal}
+          onHide={() => setShowRatingModal (false)}
+        />
+      )}
     </Container>
   );
 }
-
-/*
-  post {
-    date
-    desc
-    id
-    lyrics[].genre
-    lyrics[].name
-    lyrics[].path
-    lyrics[].filename
-    songs[].genre
-    songs[].name
-    songs[].path
-    songs[].filename
-    user.name
-  }
-*/

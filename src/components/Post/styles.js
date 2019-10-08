@@ -12,9 +12,7 @@ export const Container = styled.div`
   margin-bottom: 15px;
   padding: 8px;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+  &:last-child {margin-bottom: 0}
 `;
 
 export const Header = styled.div`
@@ -22,9 +20,7 @@ export const Header = styled.div`
   justify-content: space-between;
   margin-bottom: 1rem;
 
-  div {
-    display: flex;
-  }
+  div {display: flex}
 
   h4 {
     color: #ffffff;
@@ -46,9 +42,7 @@ export const Header = styled.div`
 export const AverageRating = styled.div`
   margin-right: 0.2rem;
 
-  p:first-child {
-    margin-right: 0.8rem;
-  }
+  p:first-child {margin-right: 0.8rem}
 
   p:last-child {
     color: #ffffff;
@@ -58,9 +52,7 @@ export const AverageRating = styled.div`
   @media (max-width: 767px) {
     margin-top: 3px;
 
-    p:first-child {
-      margin-left: 0;
-    }
+    p:first-child {margin-left: 0}
   }
 `;
 
@@ -69,9 +61,7 @@ export const PostOptions = styled.div`
   display: inline-block;
   margin-left: 0.3rem;
 
-  &:hover div {
-    display: block;
-  }
+  &:hover div {display: block}
 
   button {
     background: transparent;
@@ -131,30 +121,21 @@ export const DefaultLink = styled(Link)`
     text-decoration: none;
   }
 
-  &:first-child {
-    border-radius: 5px 5px 0 0;
-  }
+  &:first-child {border-radius: 5px 5px 0 0}
+  &:last-child {border-radius: 0 0 5px 5px}
 
-  &:last-child {
-    border-radius: 0 0 5px 5px;
-  }
-
-  i {
-    margin-right: 1rem;
-  }
+  i {margin-right: 1rem}
 `;
 
 export const DangerLink = styled(DefaultLink)`
-  &:hover {
-    background: #d64542;
-  }
+  &:hover {background: #d64542}
 `;
 
 export const Description = styled.div`
   word-break: break-word;
   margin-bottom: 1.5rem;
 
-  p { margin: 0; }
+  p {margin: 0}
 `;
 
 export const Content = styled.div`
@@ -175,7 +156,7 @@ export const PostItem = styled.div`
   justify-content: space-between;
   text-align: left;
   border: 1px solid #ffffff05;
-  padding: 8px 8px 6px;
+  padding: 7px 8px 5px;
   border-radius: 5px;
 
   div {
@@ -187,21 +168,17 @@ export const PostItem = styled.div`
 
       i { 
         height: auto;
-        margin: 2px 10px 0px 0px;
+        margin: 2px 10px 0 0;
       }
 
-      p { margin: 0; }
+      p {margin: 0}
 
-      &:first-child {
-        margin-bottom: 2px;
-      }
+      &:first-child {margin-bottom: 2px}
     }
   }
 
   @media (max-width: 767px) {
-    &:last-child {
-      margin-top: 1rem;
-    }
+    &:last-child {margin-top: 1rem}
   }
 `;
 
@@ -229,4 +206,21 @@ export const DownloadButton = styled.button`
 
 export const Footer = styled.div`
   display: flex;
+
+  button {
+    background: transparent;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    border: none;
+    margin-top: 12px;
+    padding: 0px;
+
+    i {
+      margin: 0 8px 2px 0;
+      transition: .2s;
+    }
+
+    &:hover i {font-size: 18px}
+  }
 `;

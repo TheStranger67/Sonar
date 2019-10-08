@@ -12,8 +12,9 @@ export const Container = styled.div`
   border-radius: 5px;
 
   h3 {
+    color: #ffffff;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 1.2rem;
   }
 `;
