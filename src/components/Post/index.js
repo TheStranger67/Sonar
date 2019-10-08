@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+import { isAuthenticated } from '../../services/auth';
 import { distanceInWordsStrict } from 'date-fns';
 import ptbr from 'date-fns/locale/pt';
 import CollapsibleText from 'react-read-more-less';
@@ -157,17 +158,22 @@ export default function Post ({ postData : post }) {
           </PostItem>
         )}
       </Content>
-      <Footer>
-        <button onClick={() => setShowRatingModal (true)}>
-          <i className='fas fa-star' style={{color: '#E6C229'}}/>
-          Avaliar
-        </button>
-      </Footer>
-      {showRatingModal && (
-        <RatingModal
-          show={showRatingModal}
-          onHide={() => setShowRatingModal (false)}
-        />
+      {isAuthenticated () && post.user.id.toString () === localStorage.userID && (
+        <>
+          <Footer>
+            <button onClick={() => setShowRatingModal (true)}>
+              <i className='fas fa-star' style={{color: '#E6C229'}}/>
+              Avaliar
+            </button>
+          </Footer>
+          {showRatingModal && (
+            <RatingModal
+              show={showRatingModal}
+              onHide={() => setShowRatingModal (false)}
+              postid={post.id}
+            />
+          )}
+        </>
       )}
     </Container>
   );

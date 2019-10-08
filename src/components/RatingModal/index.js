@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../../services/api';
 import Rating from 'react-rating';
 
 import {
@@ -11,8 +12,23 @@ import {
 } from './styles';
 
 export default function RatingModal (props) {
-  const [ rating, setRating ] = useState (0);
+  const [ value, setValue ] = useState (0);
   const [ comment, setComment ] = useState ('');
+
+  const handleSubmit = async () => {
+    try {
+      // await api.post (`/posts/${props.postid}/ratings`, value, {
+      //   headers: {
+      //     'Authorization': 'Bearer ' + localStorage.userToken,
+      //   }
+      // });
+      console.log (value)
+      props.history.push ('/');
+      props.onHide ();
+    } catch (error) {
+      console.log (error)
+    }
+  }
 
   return (
     <ModalContainer
@@ -23,8 +39,8 @@ export default function RatingModal (props) {
       <h3> Avaliar publicação </h3>
       <RatingContainer>
         <Rating
-          initialRating={rating}
-          onChange={value => setRating (value)}
+          initialRating={value}
+          onChange={value => setValue (value)}
           emptySymbol={
             <i className='fas fa-star' style={{color: '#bebebe', fontSize: 20}}/>
           }
@@ -32,7 +48,7 @@ export default function RatingModal (props) {
             <i className='fas fa-star' style={{color: '#E6C229', fontSize: 20}}/>
           }
         />
-        <p> {rating > 0 ? rating : ''} </p>
+        <p> {value > 0 ? value : ''} </p>
       </RatingContainer>
       <TextField
         name='comment'
@@ -42,7 +58,7 @@ export default function RatingModal (props) {
         onChange={e => setComment (e.target.value)}
       />
       <Footer>
-        <Submit type='submit'> Enviar </Submit>
+        <Submit type='submit' onClick={handleSubmit}> Enviar </Submit>
         <Cancel onClick={props.onHide}> Cancelar </Cancel>
       </Footer>
     </ModalContainer>
