@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+import { getUserID } from '../../services/auth';
 import { isAuthenticated } from '../../services/auth';
 import { distanceInWordsStrict } from 'date-fns';
 import ptbr from 'date-fns/locale/pt';
@@ -50,6 +51,10 @@ export default function Post ({ postData : post }) {
     download (data, lyric.filename);
   }
 
+  const getUserRating = () => {
+    return post.ratings.find (rating => rating.user_id !== getUserID ()) || null;
+  }
+
   return (
     <Container>
       <Header>
@@ -81,7 +86,7 @@ export default function Post ({ postData : post }) {
               </>
             )}
           </AverageRating>
-          {post.user.id.toString () === localStorage.userID && (
+          {post.user.id.toString () === getUserID () && (
             <PostOptions>
               <button> <i className="fas fa-cog"/> </button>
               <div>
@@ -158,13 +163,20 @@ export default function Post ({ postData : post }) {
           </PostItem>
         )}
       </Content>
-      {isAuthenticated () && post.user.id.toString () === localStorage.userID && (
+      {isAuthenticated () && String (post.user.id) !== getUserID () && (
         <>
           <Footer>
-            <button onClick={() => setShowRatingModal (true)}>
-              <i className='fas fa-star' style={{color: '#E6C229'}}/>
-              Avaliar
-            </button>
+            {getUserRating () === null ? 
+              <button onClick={() => setShowRatingModal (true)}>
+                <i className='fas fa-star' style={{color: '#E6C229'}}/>
+                Avaliar
+              </button>
+              : 
+              <div>
+                <i className='fas fa-star' style={{color: '#E6C229'}}/>
+                <p> {getUserRating ().value} </p>
+              </div>
+            }
           </Footer>
           {showRatingModal && (
             <RatingModal

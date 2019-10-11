@@ -213,7 +213,7 @@ export const Footer = styled.div`
     display: flex;
     align-items: center;
     border: none;
-    margin-top: 12px;
+    margin-top: 10px;
     padding: 0px;
 
     i {
@@ -222,5 +222,16 @@ export const Footer = styled.div`
     }
 
     &:hover i {font-size: 18px}
+  }
+
+  div {
+    display: flex;
+    align-items:center;
+    margin-top: 8px;
+
+    p {
+      color: #ffffff;
+      margin: 0 7px;
+    }
   }
 `;

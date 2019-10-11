@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../../../services/api';
+import { getToken } from '../../../services/auth';
 import { withFormik } from 'formik';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -216,7 +217,7 @@ export default withRouter (withFormik ({
     try {
       await api.post ('/posts', data, {
         headers: {
-          'Authorization': 'Bearer ' + localStorage.userToken,
+          'Authorization': `Bearer ${getToken ()}`,
           'Content-Type': 'multipart/form-data',
         }
       });

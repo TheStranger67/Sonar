@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+import { getToken } from '../../services/auth';
+import { withRouter } from 'react-router-dom';
 import Rating from 'react-rating';
 
 import {
@@ -11,18 +13,19 @@ import {
   Cancel,
 } from './styles';
 
-export default function RatingModal (props) {
+function RatingModal (_props) {
   const [ value, setValue ] = useState (0);
   const [ comment, setComment ] = useState ('');
+  const { staticContext, ...props } = _props;
 
   const handleSubmit = async () => {
     try {
-      // await api.post (`/posts/${props.postid}/ratings`, value, {
-      //   headers: {
-      //     'Authorization': 'Bearer ' + localStorage.userToken,
-      //   }
-      // });
-      console.log (value)
+      await api.put (`/posts/${props.postid}/ratings`, {value}, {
+        headers: {
+          'Authorization': `Bearer ${getToken ()}`,
+        }
+      });
+
       props.history.push ('/');
       props.onHide ();
     } catch (error) {
@@ -64,3 +67,5 @@ export default function RatingModal (props) {
     </ModalContainer>
   );
 }
+
+export default withRouter (RatingModal);
