@@ -1,5 +1,7 @@
 import React from 'react';
 import api from '../../../services/api';
+import { withRouter } from 'react-router-dom';
+import { getToken } from '../../../services/auth';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import GenreSelect from '../../GenreSelect';
@@ -13,13 +15,12 @@ import {
   FormTabs,
   FormField,
   Input,
-  FileInput,
   TextField,
   ErrorMessage,
   Submit
 } from '../styles';
 
-export default function EditPost ({ postData : post, history }) {
+function EditPost ({ postData : post, history }) {
   const hasSongs = post => {
     return post.songs.length > 0;
   }
@@ -34,47 +35,27 @@ export default function EditPost ({ postData : post, history }) {
         description: post.desc,
         songName: hasSongs (post) ? post.songs[0].name : '',
         songGenre: hasSongs (post) ? post.songs[0].genre : '',
-        songFile: null,
-        songFileName: hasSongs (post)
-          ? post.songs[0].filename 
-          : 'Nenhuma música seleceionada',
         lyricsName: hasLyrics (post) ? post.lyrics[0].name : '',
         lyricsGenre : hasLyrics (post) ? post.lyrics[0].genre : '',
-        lyricsFile : null,
-        lyricsFileName : hasLyrics (post)
-          ? post.lyrics[0].filename
-          : 'Nenhuma letra seleceionada',
       }}
 
       onSubmit={async (values, { setSubmitting, setErrors, props }) => {
-        console.log (values)
+        try {
+          await api.put (`/posts/${post.id}`, values, {
+            headers: {
+              'Authorization': `Bearer ${getToken ()}`,
+            }
+          });
+          history.push ('/');
+        } catch (error) {
+          setSubmitting (false);
 
-        // const data = new FormData ();
+          console.log (error)
     
-        // data.append ('desc', values.description);
-        // data.append ('song_name', values.songName);
-        // data.append ('song_genre', values.songGenre);
-        // data.append ('song_file', values.songFile);
-        // data.append ('lyrics_name', values.lyricsName);
-        // data.append ('lyrics_genre', values.lyricsGenre);
-        // data.append ('lyrics_file', values.lyricsFile);
-    
-        // try {
-        //   await api.post ('/posts', data, {
-        //     headers: {
-        //       'Authorization': 'Bearer ' + localStorage.userToken,
-        //       'Content-Type': 'multipart/form-data',
-        //     }
-        //   });
-        //   alert ('Idéia compartilhada com sucesso!');
-        //   props.history.push ('/');
-        // } catch (error) {
-        //   setSubmitting (false);
-    
-        //   error.status 
-        //   ? setErrors ({message: error.response.data.message})
-        //   : setErrors ({message: 'A comunicação com o servidor falhou'});
-        // }
+          error.status 
+          ? setErrors ({message: error.response.data.message})
+          : setErrors ({message: 'A comunicação com o servidor falhou'});
+        }
       }}
 
       validationSchema={Yup.object ().shape ({
@@ -94,28 +75,6 @@ export default function EditPost ({ postData : post, history }) {
           setFieldValue,
           setFieldTouched,
         } = formikProps;
-
-        const handleFileChange = event => {
-          const { files, name } = event.currentTarget;
-      
-          if (name === 'songFile') {
-            if (files[0]) {
-              setFieldValue (name, files[0]);
-              setFieldValue (`${name}Name`, files[0].name);
-            } else {
-              setFieldValue (name, null);
-              setFieldValue (`${name}Name`, 'Nenhuma música selecionada');
-            }
-          } else if (name === 'lyricsFile') {
-            if (files[0]) {
-              setFieldValue (name, files[0]);
-              setFieldValue (`${name}Name`, files[0].name);
-            } else {
-              setFieldValue (name, null);
-              setFieldValue (`${name}Name`, 'Nenhuma letra selecionada');
-            }
-          }
-        }
 
         const songTab = <>
           <FormField>
@@ -149,21 +108,6 @@ export default function EditPost ({ postData : post, history }) {
               stateVar='songGenre'
             />
           </FormField>
-
-          <label htmlFor='song'> Arquivo da música </label>
-          <FileInput>
-            <label htmlFor='song'>
-              Clique aqui para buscar em seus arquivos 
-            </label>
-            <input
-              type='file'
-              id='song'
-              name='songFile'
-              onChange={e => handleFileChange (e)}
-              onBlur={handleBlur}
-            />
-            <p> {values.songFileName} </p>
-          </FileInput>
         </>
 
         const lyricTab = <>
@@ -198,21 +142,6 @@ export default function EditPost ({ postData : post, history }) {
                 stateVar='lyricsGenre'
               />
             </FormField>
-
-            <label htmlFor='lyrics'> Arquivo da letra </label>
-            <FileInput>
-              <label htmlFor='lyrics'> 
-                Clique aqui para buscar em seus arquivos 
-              </label>
-              <input 
-                type='file'
-                id='lyrics'
-                name='lyricsFile'
-                onChange={e => handleFileChange (e)}
-                onBlur={handleBlur}
-              />
-              <p> {values.lyricsFileName} </p>
-            </FileInput>
           </div>
         </>
 
@@ -236,7 +165,7 @@ export default function EditPost ({ postData : post, history }) {
               <TextField
                 name='description'
                 placeholder='Conte mais sobre sua criação'
-                rows='6'
+                rows='8'
                 error={errors.description && touched.description}
                 value={values.description}
                 onChange={handleChange}
@@ -255,9 +184,7 @@ export default function EditPost ({ postData : post, history }) {
 
             <Submit type='submit' disabled={isSubmitting}>
               {isSubmitting
-                ? <div>
-                    <LoadingAnimation/>
-                  </div>
+                ? <div> <LoadingAnimation/> </div>
                 : 'Salvar alterações'
               }
             </Submit>
@@ -267,3 +194,5 @@ export default function EditPost ({ postData : post, history }) {
     />
   );
 }
+
+export default withRouter (EditPost);

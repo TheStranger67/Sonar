@@ -114,16 +114,16 @@ function SignupJur (props) {
         <Input
           type='password'
           id='conf_password_jur'
-          name='passwordConf'
+          name='password_confirmation'
           placeholder='Digite a mesma senha informada acima'
-          error={errors.passwordConf && touched.passwordConf}
-          value={values.passwordConf}
+          error={errors.password_confirmation && touched.password_confirmation}
+          value={values.password_confirmation}
           onChange={handleChange}
           onBlur={handleBlur}
           maxLength='16'
         />
-        {errors.passwordConf && touched.passwordConf && (
-          <p> {errors.passwordConf} </p>
+        {errors.password_confirmation && touched.password_confirmation && (
+          <p> {errors.password_confirmation} </p>
         )}
       </FormField>
       
@@ -189,7 +189,7 @@ export default withRouter (withFormik ({
     name: '',
     email: '',
     password: '',
-    passwordConf: '',
+    password_confirmation: '',
     cnpj: '',
     phone: '',
   }),
@@ -211,7 +211,7 @@ export default withRouter (withFormik ({
       .min (8, 'A senha deve ter no mínimo 8 caracteres')
       .required ('Preencha o campo de senha'),
 
-    passwordConf: Yup.string ()
+    password_confirmation: Yup.string ()
       .required ('Preencha o campo de confirmação de senha')
       .oneOf ([Yup.ref ('password'), null], 'As duas senhas devem ser iguais'),
       
@@ -230,19 +230,20 @@ export default withRouter (withFormik ({
   }),
 
   handleSubmit: async (values, { setSubmitting, setErrors, props }) => {
-    delete values.passwordConf;
+    delete values.password_confirmation;
     
     try {
-      const response = await api.post ('/users/jur', values);
+      const response = await api.post ('/companies', values);
       const { data } = response;
 
       alert (data.message);
       props.history.push ('/login');
     } catch (error) {
       setSubmitting (false);
+      const { data } = error.response || null;
 
-      error.status 
-      ? setErrors ({message: error.response.data.message})
+      data
+      ? setErrors ({message: data.message})
       : setErrors ({message: 'A comunicação com o servidor falhou'});
     }
   },

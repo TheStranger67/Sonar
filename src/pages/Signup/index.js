@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tab } from 'react-bootstrap';
-import SignupFis from '../../components/SignupForm/SignupFis';
-import SignupJur from '../../components/SignupForm/SignupJur';
+import Personal from '../../components/SignupForm/Personal';
+import Company from '../../components/SignupForm/Company';
 import { Container, FormContainer, FormTabs } from './styles';
 
 export default function Signup () {
@@ -11,10 +11,10 @@ export default function Signup () {
         <FormContainer>
           <FormTabs transition={false} defaultActiveKey='fis_tab'>
             <Tab eventKey='fis_tab' title='Pessoal'>
-              <SignupFis/>
+              <Personal/>
             </Tab>
             <Tab eventKey='jur_tab' title='Empresa'>
-              <SignupJur/>
+              <Company/>
             </Tab>
           </FormTabs>
         </FormContainer>

@@ -1,14 +1,11 @@
-import { Jumbotron } from 'react-bootstrap';
 import styled from 'styled-components';
 
-
-export const Banner = styled(Jumbotron)`
+export const Banner = styled.div`
   color: #ffffff;
   background: linear-gradient(to right, #d81e5b 0%, #0062cc 100%);
-  margin-bottom: 0;
+  width: 100%;
   padding: 2rem 2.7rem 2.7rem;
   text-align: center;
-  border-radius: 0;
 
   a {
     background-color: transparent;

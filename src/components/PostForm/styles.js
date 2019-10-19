@@ -75,15 +75,16 @@ export const TextField = styled.textarea`
   color: #ffffff;
   background: #212023;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0.7rem 1rem;
   resize: none;
   border: none;
   box-shadow: ${props => props.error ? '0 0 0 1px #D63230' : 'none'};
 
-  ::placeholder {
-    color: #acacac;
-  }
+  ::placeholder {color: #acacac}
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-thumb {border-radius: 25px}
 
   &:focus {
     outline: 0;

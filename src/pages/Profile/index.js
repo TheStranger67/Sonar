@@ -1,50 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { getToken, getUserID, getUserName } from '../../services/auth';
-import { Tab } from 'react-bootstrap';
+import { getUserID, getUserName } from '../../services/auth';
+import { Link } from 'react-router-dom';
+import Filters from '../../components/Filters';
 import PostList from '../../components/PostList';
-import { Banner, FilterTabs } from './styles';
+import { Banner, Feed } from './styles';
 
 export default function Profile () {
-  const [ loading, setLoading ] = useState (true);
-  const [ user, setUser ] = useState (null);
   const [ posts, setPosts ] = useState ([]);
+  const [ loading, setLoading ] = useState (true);
+  const [ filters, setFilters ] = useState ('');
+  const [ page, setPage ] = useState (1);
+  const [ lastPage, setLastPage ] = useState (0);
 
   useEffect (() => {
     getUserPosts ();
   }, []);
 
-  const getUserPosts = async () => {
+  useEffect (() => {
+    setLoading (true);
+    getUserPosts (1, filters);
+  }, [filters]);
+
+  const getUserPosts = async (pageNumber = page, _filters = filters) => {
     try {
-      const response = await api.get (`/users/${getUserID ()}`, {
-        headers: {
-          'Authorization': `Bearer ${getToken ()}`
-        }
-      });
-      const { data } = response;
-      
-      setUser (data);
-      setPosts (data.posts);
+      const response = await api.get (
+        `/profiles/${getUserID ()}?page=${pageNumber}${_filters}`
+      );
+      const { data, lastPage } = response.data;
+
+      pageNumber > 1 ? setPosts ([...posts, ...data]) : setPosts (data);
+      setPage (pageNumber + 1);
+      setLastPage (lastPage);
       setLoading (false);
     } catch (error) {
       console.log (error);
     }
   }
 
-  const getFilteredPosts = type => {
-    const filtered = posts.filter (post => {
-      const { songs, lyrics } = post
-      switch (type) {
-        case 'songs':
-          return songs.length > 0 && lyrics.length === 0;
-        case 'lyrics': 
-          return lyrics.length > 0 && songs.length === 0;
-        case 'both': 
-          return songs.length > 0 && lyrics.length > 0;
-        default: return post;
-      }
-    });
-    return filtered;
+  const isLastPage = () => {
+    return lastPage && page > lastPage;
   }
 
   return (
@@ -53,20 +48,16 @@ export default function Profile () {
         <h2> {getUserName ()} </h2>
         <h3> Veja aqui todas as publicações que voce compartilhou </h3>
       </Banner>
-      <FilterTabs justify transition={false} defaultActiveKey='recent'>
-        <Tab eventKey='recent' title='Mais recentes'>
-          <PostList posts={getFilteredPosts ('recent')} loading={loading}/>
-        </Tab>
-        <Tab eventKey='songs' title='Músicas'>
-          <PostList posts={getFilteredPosts ('songs')} loading={loading}/>
-        </Tab>
-        <Tab eventKey='lyrics' title='Letras'>
-          <PostList posts={getFilteredPosts ('lyrics')} loading={loading}/>
-        </Tab>
-        <Tab eventKey='both' title='Músicas e letras'>
-          <PostList posts={getFilteredPosts ('both')} loading={loading}/>
-        </Tab>
-      </FilterTabs>
+      <Feed>
+        <Filters onChange={filters => setFilters (filters)}/>
+        <PostList 
+          posts={posts}
+          loading={loading}
+          onScroll={() => getUserPosts ()}
+          isLastPage={isLastPage ()}
+        />
+        <div style={{width: 230}}></div>
+      </Feed>
     </>
   );
 }

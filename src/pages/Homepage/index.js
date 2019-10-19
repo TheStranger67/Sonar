@@ -63,17 +63,14 @@ export default function Homepage () {
           </>
         }
       </Banner>
-      
       <Feed>
         <Filters onChange={filters => setFilters (filters)}/>
-
         <PostList 
           posts={posts}
           loading={loading}
           onScroll={() => getPosts ()}
           isLastPage={isLastPage ()}
         />
-
         <div style={{width: 230}}></div>
       </Feed>
     </>

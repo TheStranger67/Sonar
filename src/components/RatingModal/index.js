@@ -25,8 +25,7 @@ function RatingModal (_props) {
           'Authorization': `Bearer ${getToken ()}`,
         }
       });
-
-      props.history.push ('/');
+      props.onChange (value);
       props.onHide ();
     } catch (error) {
       console.log (error)

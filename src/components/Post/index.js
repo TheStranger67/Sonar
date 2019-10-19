@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import api from '../../services/api';
-import { getUserID } from '../../services/auth';
-import { isAuthenticated } from '../../services/auth';
+import React, { useState, useEffect } from 'react';
+import { isAuthenticated, getUserID } from '../../services/auth';
 import { distanceInWordsStrict } from 'date-fns';
 import ptbr from 'date-fns/locale/pt';
 import CollapsibleText from 'react-read-more-less';
 import Rating from 'react-rating';
-import download from 'downloadjs';
+import PostItem from './PostItem';
 import RatingModal from '../RatingModal';
-
-import {
-  ReactComponent as Loading
-} from '../../icons/loading.svg';
 
 import { 
   Container,
@@ -22,38 +16,24 @@ import {
   DangerLink,
   Description,
   Content,
-  PostItem,
-  DownloadButton,
   Footer
 } from './styles';
 
 export default function Post ({ postData : post }) {
-  const [ loading, setLoading ] = useState (false);
   const [ showRatingModal, setShowRatingModal ] = useState (false);
+  const [ userRating, setUserRating ] = useState (null);
 
-  const handleSongDownload = async song => {
-    setLoading (true)
-
-    const response = await api.get (`/songs/${song.id}`, {responseType: 'blob'});
-    const { data } = response
-    setLoading (false)
-
-    download (data, song.filename);
-  }
-
-  const handleLyricDownload = async lyric => {
-    setLoading (true)
-
-    const response = await api.get (`/lyrics/${lyric.id}`, {responseType: 'blob'});
-    const { data } = response;
-    setLoading (false)
-    
-    download (data, lyric.filename);
-  }
+  useEffect (() => {
+    setUserRating (getUserRating ());
+  }, []);
 
   const getUserRating = () => {
-    return post.ratings.find (rating => rating.user_id !== getUserID ()) || null;
+    const rating = post.ratings.find (rating => rating.user_id !== getUserID ());
+    if (!rating) return null;
+    return rating.value;
   }
+
+  const belongsToUser = () => String (post.user.id) === getUserID ()
 
   return (
     <Container>
@@ -67,7 +47,7 @@ export default function Post ({ postData : post }) {
           </p>
         </div>
         <div>
-          <AverageRating>
+          <AverageRating onClick={() => alert (post.id)}>
             {post.ratings.length > 0 && (
               <>
                 <p>
@@ -86,17 +66,15 @@ export default function Post ({ postData : post }) {
               </>
             )}
           </AverageRating>
-          {post.user.id.toString () === getUserID () && (
+          {belongsToUser () && (
             <PostOptions>
               <button> <i className="fas fa-cog"/> </button>
               <div>
                 <DefaultLink to={`/posts/${post.id}`}> 
-                  <i className="far fa-edit"/>
-                  Editar
+                  <i className="far fa-edit"/> Editar
                 </DefaultLink>
                 <DangerLink to='/posts/'>
-                  <i className="fas fa-trash-alt"/>
-                  Excluir
+                  <i className="fas fa-trash-alt"/> Excluir
                 </DangerLink>
               </div>
             </PostOptions>
@@ -113,79 +91,31 @@ export default function Post ({ postData : post }) {
         </CollapsibleText>
       </Description>
       <Content>
-        {post.songs.length > 0 && (
-          <PostItem>
-            <div>
-              <div>
-                <i className="fas fa-music"/>
-                <p> {post.songs[0].name} </p>
-              </div>
-              <div>
-                <i className="fas fa-headphones"/>
-                <p> {post.songs[0].genre} </p>
-              </div>
-            </div>
-            <DownloadButton
-              onClick={() => handleSongDownload (post.songs[0])}
-            > 
-              {loading
-                ? <div>
-                    <Loading/>
-                  </div>
-                : <i className="fas fa-download"/>
-              }
-            </DownloadButton>
-          </PostItem>
-        )} 
-
-        {post.lyrics.length > 0 && (
-          <PostItem>
-            <div>
-              <div>
-                <i className="fas fa-file-alt"/>
-                <p> {post.lyrics[0].name} </p>
-              </div>
-              <div>
-                <i className="fas fa-headphones"/>
-                <p> {post.lyrics[0].genre} </p>
-              </div>
-            </div>
-            <DownloadButton
-              onClick={() => handleLyricDownload (post.lyrics[0])}
-            > 
-              {loading
-                ? <div>
-                    <Loading/>
-                  </div>
-                : <i className="fas fa-download"/>
-              }
-            </DownloadButton>
-          </PostItem>
-        )}
+        {post.songs.length > 0 && <PostItem item={post.songs[0]} type='song'/>} 
+        {post.lyrics.length > 0 && <PostItem item={post.lyrics[0]} type='lyric'/>}
       </Content>
-      {isAuthenticated () && String (post.user.id) !== getUserID () && (
-        <>
-          <Footer>
-            {getUserRating () === null ? 
-              <button onClick={() => setShowRatingModal (true)}>
-                <i className='fas fa-star' style={{color: '#E6C229'}}/>
-                Avaliar
-              </button>
-              : 
-              <div>
-                <i className='fas fa-star' style={{color: '#E6C229'}}/>
-                <p> {getUserRating ().value} </p>
-              </div>
-            }
-          </Footer>
+      {isAuthenticated () && !belongsToUser () && (
+        <Footer>
+          {userRating ? 
+            <div>
+              <i className='fas fa-star' style={{color: '#E6C229'}}/>
+              <p> {userRating} </p>
+            </div>
+            : 
+            <button onClick={() => setShowRatingModal (true)}>
+              <i className='fas fa-star' style={{color: '#E6C229'}}/>
+              Avaliar
+            </button>      
+          }
           {showRatingModal && (
             <RatingModal
               show={showRatingModal}
+              onChange={value => setUserRating (value)}
               onHide={() => setShowRatingModal (false)}
               postid={post.id}
             />
           )}
-        </>
+        </Footer>
       )}
     </Container>
   );

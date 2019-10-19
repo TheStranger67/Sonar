@@ -1,14 +1,11 @@
-import { Jumbotron, Tabs } from 'react-bootstrap';
 import styled from 'styled-components';
 
-
-export const Banner = styled(Jumbotron)`
+export const Banner = styled.div`
   color: #ffffff;
   background: linear-gradient(to right, #d81e5b 0%, #0062cc 100%);
-  margin-bottom: 1.9rem;
+  width: 100%;
   padding: 2.7rem;
   text-align: center;
-  border-radius: 0;
 
   a {
     background-color: transparent;
@@ -29,36 +26,8 @@ export const Banner = styled(Jumbotron)`
   }
 `;
 
-export const FilterTabs = styled(Tabs)`
-  max-width: 650px;
-  margin: auto;
-  border: none;
-  border-radius: 25px;
-  
-  &.nav-tabs .nav-link:hover {
-    color: #ffffff;
-    border: none;
-  }
-  
-  &.nav-tabs .nav-link.active {
-    color: #ffffff;
-    background-color: #0062cc;
-    border: none;
-    box-shadow: none;
-  }
-
-  a {
-    color: #bebebe;
-    background: #323035;
-    text-align: center;
-    margin: 0 7px !important;
-    border: none !important;
-    border-radius: 25px !important;
-    padding: 9px 1em 7px;
-    box-shadow: 0 0 0 1px #ffffff40;
-
-    &:hover {
-      background: #29272B;
-    }
-  }
+export const Feed = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0;
 `;
