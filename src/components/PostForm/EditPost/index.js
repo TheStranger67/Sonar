@@ -20,14 +20,9 @@ import {
   Submit
 } from '../styles';
 
-function EditPost ({ postData : post, history }) {
-  const hasSongs = post => {
-    return post.songs.length > 0;
-  }
-
-  const hasLyrics = post => {
-    return post.lyrics.length > 0;
-  }
+function EditPost ({ data : post, history }) {
+  const hasSongs = post => post.songs.length > 0;
+  const hasLyrics = post => post.lyrics.length > 0;
 
   return (
     <Formik
@@ -49,9 +44,7 @@ function EditPost ({ postData : post, history }) {
           history.push ('/');
         } catch (error) {
           setSubmitting (false);
-
-          console.log (error)
-    
+          
           error.status 
           ? setErrors ({message: error.response.data.message})
           : setErrors ({message: 'A comunicação com o servidor falhou'});
@@ -164,7 +157,7 @@ function EditPost ({ postData : post, history }) {
               <label htmlFor='desc' className='form_label'> Descrição </label>
               <TextField
                 name='description'
-                placeholder='Conte mais sobre sua criação'
+                placeholder='Conte mais sobre sua criação...'
                 rows='8'
                 error={errors.description && touched.description}
                 value={values.description}

@@ -19,7 +19,7 @@ import {
   Footer
 } from './styles';
 
-export default function Post ({ postData : post }) {
+export default function Post ({ data : post }) {
   const [ showRatingModal, setShowRatingModal ] = useState (false);
   const [ userRating, setUserRating ] = useState (null);
 
@@ -28,12 +28,14 @@ export default function Post ({ postData : post }) {
   }, []);
 
   const getUserRating = () => {
-    const rating = post.ratings.find (rating => rating.user_id !== getUserID ());
+    const rating = post.ratings.find (rating => {
+      return rating.user_id === getUserID ();
+    });
     if (!rating) return null;
     return rating.value;
   }
 
-  const belongsToUser = () => String (post.user.id) === getUserID ()
+  const belongsToUser = () => post.user.id === getUserID ()
 
   return (
     <Container>
@@ -47,30 +49,28 @@ export default function Post ({ postData : post }) {
           </p>
         </div>
         <div>
-          <AverageRating onClick={() => alert (post.id)}>
-            {post.ratings.length > 0 && (
-              <>
-                <p>
-                  {post.ratings.length > 1 
-                    ? `${post.ratings.length} avaliações`
-                    : `1 avaliação`}
-                </p>
-                <Rating
-                  readonly={true}
-                  fractions={10}
-                  initialRating={post.average_rating}
-                  emptySymbol={<i className='fas fa-star' style={{color: '#bebebe'}}/>}
-                  fullSymbol={<i className='fas fa-star' style={{color: '#E6C229'}}/>}
-                />
-                <p> {post.average_rating} </p>
-              </>
-            )}
-          </AverageRating>
+          {post.ratings.length > 0 && (
+            <AverageRating to={`/posts/${post.id}/details`}>
+              <p>
+                {post.ratings.length > 1 
+                  ? `${post.ratings.length} avaliações`
+                  : `1 avaliação`}
+              </p>
+              <Rating
+                readonly={true}
+                fractions={10}
+                initialRating={post.average_rating}
+                emptySymbol={<i className='fas fa-star' style={{color: '#bebebe'}}/>}
+                fullSymbol={<i className='fas fa-star' style={{color: '#E6C229'}}/>}
+              />
+              <p> {post.average_rating} </p>
+            </AverageRating>
+          )}
           {belongsToUser () && (
             <PostOptions>
               <button> <i className="fas fa-cog"/> </button>
               <div>
-                <DefaultLink to={`/posts/${post.id}`}> 
+                <DefaultLink to={`/posts/${post.id}/edit`}> 
                   <i className="far fa-edit"/> Editar
                 </DefaultLink>
                 <DangerLink to='/posts/'>
@@ -110,7 +110,7 @@ export default function Post ({ postData : post }) {
           {showRatingModal && (
             <RatingModal
               show={showRatingModal}
-              onChange={value => setUserRating (value)}
+              onRating={value => setUserRating (value)}
               onHide={() => setShowRatingModal (false)}
               postid={post.id}
             />

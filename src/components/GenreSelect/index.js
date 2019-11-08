@@ -24,24 +24,26 @@ export default function GenreSelect (props) {
   ]
 
   const handleChange = selected => {
-    props.onChange(props.stateVar, selected.value);
+    const value = selected ? selected.value : '';
+    props.onChange (props.stateVar, value);
   };
 
   const handleBlur = () => {
-    props.onBlur(props.stateVar, true);
+    props.onBlur (props.stateVar, true);
   };
 
   return (
     <>
       <Select
         options={options}
-        styles={styles('default')}
+        styles={styles ('default')}
         classNamePrefix='form_select'
         defaultValue={props.defaultValue}
-        placeholder='Selecione o gênero musical desejado'
+        placeholder={props.placeholder || 'Selecionar...'}
         noOptionsMessage={() => 'Nenhuma opção encontrada'}
         onChange={handleChange}
         onBlur={handleBlur}
+        isClearable={props.isClearable || false}
       />
       {props.error && props.touched && (
         <p className='label_error'> {props.error} </p>

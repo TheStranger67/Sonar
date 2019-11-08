@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, FilterGroup, Filter } from './styles';
+import GenreSelect from '../GenreSelect';
 
 export default function Filters ({ onChange }) {
   const [ filterBySongs, setFilterBySongs ] = useState (false);
@@ -7,6 +8,7 @@ export default function Filters ({ onChange }) {
   const [ orderByRatings, setOrderByRatings ] = useState (false);
   const [ orderByRecent, setOrderByRecent ] = useState (true);
   const [ orderByOldest, setOrderByOldest ] = useState (false);
+  const [ genreFilter, setGenreFilter ] = useState ('');
 
   useEffect (() => {
     filterPosts ();
@@ -15,12 +17,14 @@ export default function Filters ({ onChange }) {
     filterByLyrics,
     orderByRatings,
     orderByRecent,
-    orderByOldest
+    orderByOldest,
+    genreFilter
   ])
 
   const filterPosts = () => {
     let content = '';
     let order = '';
+    let genre = '';
 
     if (filterBySongs) content = '&content=songs';
     if (filterByLyrics) content = '&content=lyrics';
@@ -30,7 +34,9 @@ export default function Filters ({ onChange }) {
     if (orderByOldest) order = '&order=old';
     if (orderByRecent) order = '';
 
-    onChange (content + order);
+    if (genreFilter !== '') genre = `&genre=${genreFilter}`;
+
+    onChange (content + order + genre);
   }
 
   return (
@@ -96,6 +102,18 @@ export default function Filters ({ onChange }) {
           />
           <p> Letras </p>
         </Filter>
+      </FilterGroup>
+      <FilterGroup>
+        <h4> Gênero musical </h4>
+        <GenreSelect
+          id='song_genre'
+          name='songGenre'
+          stateVar='filterGenre'
+          value={genreFilter}
+          isClearable={true}
+          onChange={(state, value) => setGenreFilter (value)}
+          onBlur={() => null}
+        />
       </FilterGroup>
     </Container>
   );

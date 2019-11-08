@@ -20,12 +20,18 @@ export const RatingContainer = styled.div`
   height: 40px;
   margin: 0;
 
-  p {
+  h3 {
     color: #ffffff;
     font-size: 20px;
     font-weight: 500;
     margin: 0 0 6px 9px;
   }
+`;
+
+export const RatingError = styled.p`
+  color: #f06d6b;
+  margin: 0 10px;
+  font-size: 12px;
 `;
 
 export const TextField = styled.textarea`
@@ -52,6 +58,15 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 12px;
+`;
+
+export const ErrorMessage = styled.p`
+  color: #ffffff;
+  background: #d64542;
+  width: max-content;
+  margin: 12px 0px 18px;
+  border-radius: 25px;
+  padding: 8px 1rem;
 `;
 
 export const Submit = styled.button`

@@ -155,7 +155,7 @@ function CreatePost (props) {
         <label htmlFor='desc' className='form_label'> Descrição </label>
         <TextField
           name='description'
-          placeholder='Conte mais sobre sua criação'
+          placeholder='Conte mais sobre sua criação...'
           rows='6'
           error={errors.description && touched.description}
           value={values.description}

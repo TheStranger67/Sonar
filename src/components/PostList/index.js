@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import Post from '../Post';
-import { ReactComponent as LoadingAnimation } from '../../icons/loading.svg';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { SearchBar, List, Loader, EmptyItem } from './styles'; 
+import { SearchBar, Container, Loader, EmptyItem } from './styles'; 
 
-export default function PostList ({ posts, loading, onScroll, isLastPage }) {
+import {
+  ReactComponent as LoadingAnimation
+} from '../../icons/loading.svg';
+
+export default function PostList ({
+  posts, loading, onScroll, isLastPage
+}) {
   const [ query, setQuery ] = useState ('');
 
   const filterPosts = () => {
@@ -29,7 +34,7 @@ export default function PostList ({ posts, loading, onScroll, isLastPage }) {
 
   const postList = filterPosts ();
   return (
-    <List>
+    <Container>
       <SearchBar>
         <input
           name='query'
@@ -39,7 +44,6 @@ export default function PostList ({ posts, loading, onScroll, isLastPage }) {
           onChange={e => setQuery (e.target.value)}
         />
       </SearchBar>
-      
       {loading ?
         <EmptyItem>
           <div>
@@ -60,7 +64,7 @@ export default function PostList ({ posts, loading, onScroll, isLastPage }) {
             endMessage={<></>}
           >
             {postList.map (post => (
-              <Post key={post.id} postData={post} />
+              <Post key={post.id} data={post} />
             ))}
           </InfiniteScroll>
         : <EmptyItem>
@@ -70,6 +74,6 @@ export default function PostList ({ posts, loading, onScroll, isLastPage }) {
           <p> Ainda não há postagens nessa categoria </p>
         </EmptyItem>
       }
-    </List>
+    </Container>
   );
 }

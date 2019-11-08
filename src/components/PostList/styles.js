@@ -28,7 +28,7 @@ export const SearchBar = styled.div`
   }
 `;
 
-export const List = styled.div`
+export const Container = styled.div`
   background: transparent;
   margin-bottom: 3rem;
   width: 640px;

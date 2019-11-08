@@ -39,7 +39,7 @@ export default function EditPost ({ history, match }) {
       :   
         <FormContainer>
           <h2> Editar publicação </h2>
-          <EditPostForm postData={post}/>
+          <EditPostForm data={post}/>
         </FormContainer>
       }
     </Container>

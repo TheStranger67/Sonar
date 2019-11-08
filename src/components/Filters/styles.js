@@ -5,7 +5,7 @@ export const Container = styled.div`
   color: #ffffff;
   position: sticky;
   top: 123px;
-  max-width: 230px;
+  width: 230px;
   height: max-content;
   padding: 15px;
   margin: 67px 15px;
@@ -48,7 +48,7 @@ export const Filter = styled.label`
     width: 32px;
     height: 16px;
     top: 2px;
-    right: 5px;
+    right: 8px;
     -webkit-appearance: none;
     background: #212023;
     outline: none;

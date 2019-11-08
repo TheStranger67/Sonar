@@ -163,7 +163,7 @@ function SignupFis (props) {
       </FormField>
 
       <FormField> {/* Phone */}
-        <label className='form_label' htmlFor='phone_fis'> Telefone (opcional) </label>
+        <label className='form_label' htmlFor='phone_fis'> Telefone </label>
         <MaskedInput
           id='phone_fis'
           name='phone'

@@ -149,7 +149,7 @@ function SignupJur (props) {
       </FormField>
     
       <FormField> {/* Phone */}
-        <label className='form_label' htmlFor='phone_jur'> Telefone (opcional) </label>
+        <label className='form_label' htmlFor='phone_jur'> Telefone </label>
         <MaskedInput
           id='phone_jur'
           name='phone'
@@ -230,8 +230,6 @@ export default withRouter (withFormik ({
   }),
 
   handleSubmit: async (values, { setSubmitting, setErrors, props }) => {
-    delete values.password_confirmation;
-    
     try {
       const response = await api.post ('/companies', values);
       const { data } = response;

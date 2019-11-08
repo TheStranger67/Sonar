@@ -39,11 +39,12 @@ export const Header = styled.div`
   }
 `;
 
-export const AverageRating = styled.div`
+export const AverageRating = styled(Link)`
+  display: flex;
   margin-right: 0.2rem;
-  cursor: pointer;
-  
+
   i {transition: .2s}
+  &:hover {text-decoration: none}
   &:hover i {font-size: 16px}
 
   p:first-child {margin-right: 0.8rem}

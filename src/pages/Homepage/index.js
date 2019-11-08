@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { isAuthenticated, getUserName } from '../../services/auth';
+import { isAuthenticated } from '../../services/auth';
 import { Link } from 'react-router-dom';
 import Filters from '../../components/Filters';
 import PostList from '../../components/PostList';
@@ -36,31 +36,22 @@ export default function Homepage () {
     }
   }
 
-  const isLastPage = () => {
-    return lastPage && page > lastPage;
-  }
+  const isLastPage = () => lastPage && page > lastPage;
 
   return (
     <>
       <Banner>
+        <h2> Desenvolvido para compartilhar seu talento musical </h2>
+        <h3> Compartilhe suas músicas, letras e encontre novos talentos! </h3>
+        <br/>
         {isAuthenticated () ?
-          <>
-            <h2> Bem vindo (a), {getUserName ()} </h2>
-            <h3> Mostre suas ideias para o mundo agora mesmo! </h3>
-            <br/>
-            <Link to='/upload' className='opt_link'>
-              Compartilhar ideia
-            </Link>
-          </>
+          <Link to='/upload' className='opt_link'>
+            Compartilhar ideia
+          </Link>
         : 
-          <>
-            <h2> Bem vindo (a) ao Projeto Sonar! </h2>
-            <h3> Entre para começar a compartilhar suas ideias musicais agora mesmo! </h3>
-            <br/>
-            <Link to='/login' className='opt_link'>
-              Entrar
-            </Link>
-          </>
+          <Link to='/login' className='opt_link'>
+            Entrar
+          </Link>
         }
       </Banner>
       <Feed>
@@ -71,7 +62,7 @@ export default function Homepage () {
           onScroll={() => getPosts ()}
           isLastPage={isLastPage ()}
         />
-        <div style={{width: 230}}></div>
+        <div style={{width: 260}}></div>
       </Feed>
     </>
   );

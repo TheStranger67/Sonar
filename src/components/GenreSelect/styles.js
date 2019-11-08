@@ -41,6 +41,17 @@ export default function styles (state) {
         cursor: 'pointer',
       }
     }),
+
+    clearIndicator: styles => ({
+      ...styles,
+      color: '#acacac',
+      marginRight: -12,
+      ':hover': {
+        ...styles[':hover'],
+        color: 'white',
+        cursor: 'pointer',
+      }
+    }),
   
     indicatorSeparator: styles => ({
       ...styles,

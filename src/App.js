@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import UploadPost from './pages/UploadPost';
 import EditPost from './pages/EditPost';
 import Profile from './pages/Profile';
+import PostDetails from './pages/PostDetails';
 import './App.css';
 
 export default function App () {
@@ -20,7 +21,8 @@ export default function App () {
         <Route path='/signup' component={Signup}></Route>
         <Route path='/profile' component={Profile}></Route>
         <Route path='/upload' component={UploadPost}></Route>
-        <Route path='/posts/:pid' component={EditPost}></Route>
+        <Route path='/posts/:pid/edit' component={EditPost}></Route>
+        <Route path='/posts/:pid/details' component={PostDetails}></Route>
       </Container>
     </Router>
   );

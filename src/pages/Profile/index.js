@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { getUserID, getUserName } from '../../services/auth';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Filters from '../../components/Filters';
 import PostList from '../../components/PostList';
 import { Banner, Feed } from './styles';
@@ -38,9 +38,7 @@ export default function Profile () {
     }
   }
 
-  const isLastPage = () => {
-    return lastPage && page > lastPage;
-  }
+  const isLastPage = () => lastPage && page > lastPage;
 
   return (
     <>
