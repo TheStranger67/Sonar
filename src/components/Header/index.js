@@ -6,9 +6,6 @@ import {
   getUserName,
   getUserLevel,
   logout,
-  user_key,
-  comp_key,
-  adm_key,
 } from '../../services/auth'
 
 import {
@@ -36,9 +33,9 @@ function Header ({ history }) {
         {isAuthenticated () ? (
           <>
             <p> {`Bem-vindo (a), ${getUserName ()}!`} </p>
-            {getUserLevel () === user_key && (
+            {getUserLevel () === 'user' && (
               <>
-                <MenuItem to='/profile'>
+                <MenuItem to='/profile/user'>
                   Meu perfil
                 </MenuItem>
                 <LogoutButton onClick={() => handleLogOut ()}>
@@ -46,9 +43,9 @@ function Header ({ history }) {
                 </LogoutButton>
               </>
             )}
-            {getUserLevel () === comp_key && (
+            {getUserLevel () === 'company' && (
               <>
-                <MenuItem to='/profile'>
+                <MenuItem to='/profile/company'>
                   Meu perfil
                 </MenuItem>
                 <LogoutButton onClick={() => handleLogOut ()}>
@@ -56,7 +53,7 @@ function Header ({ history }) {
                 </LogoutButton>
               </>
             )}
-            {getUserLevel () === adm_key && (
+            {getUserLevel () === 'admin' && (
               <>
                 <p> ADM </p>
                 <LogoutButton onClick={() => handleLogOut ()}>

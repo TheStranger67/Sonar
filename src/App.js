@@ -7,7 +7,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import UploadPost from './pages/UploadPost';
 import EditPost from './pages/EditPost';
-import Profile from './pages/Profile';
+import UserProfile from './pages/Profile/User';
+import CompanyProfile from './pages/Profile/Company';
 import PostDetails from './pages/PostDetails';
 import './App.css';
 
@@ -19,7 +20,8 @@ export default function App () {
         <Route exact path='/' component={Homepage}></Route>
         <Route path='/login' component={Login}></Route>
         <Route path='/signup' component={Signup}></Route>
-        <Route path='/profile' component={Profile}></Route>
+        <Route path='/profile/user' component={UserProfile}></Route>
+        <Route path='/profile/company' component={CompanyProfile}></Route>
         <Route path='/upload' component={UploadPost}></Route>
         <Route path='/posts/:pid/edit' component={EditPost}></Route>
         <Route path='/posts/:pid/details' component={PostDetails}></Route>

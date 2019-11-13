@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
-import { isAuthenticated } from '../../services/auth';
-import { Link } from 'react-router-dom';
-import Filters from '../../components/Filters';
-import PostList from '../../components/List/PostList';
-import { Banner, Feed } from './styles';
+import api from '../../../services/api';
+import { getUserID, getUserName } from '../../../services/auth';
+//import { Link } from 'react-router-dom';
+import Filters from '../../../components/Filters';
+import PostList from '../../../components/List/PostList';
+import { Banner, Feed } from '../styles';
 
-export default function Homepage () {
+export default function UserProfile () {
   const [ posts, setPosts ] = useState ([]);
   const [ loading, setLoading ] = useState (true);
   const [ filters, setFilters ] = useState ('');
@@ -14,17 +14,19 @@ export default function Homepage () {
   const [ lastPage, setLastPage ] = useState (0);
 
   useEffect (() => {
-    getPosts ();
+    getUserPosts ();
   }, []);
 
   useEffect (() => {
     setLoading (true);
-    getPosts (1, filters);
+    getUserPosts (1, filters);
   }, [filters]);
 
-  const getPosts = async (pageNumber = page, _filters = filters) => {
+  const getUserPosts = async (pageNumber = page, _filters = filters) => {
     try {
-      const response = await api.get (`/posts?page=${pageNumber}${_filters}`);
+      const response = await api.get (
+        `/profiles/user/${getUserID ()}?page=${pageNumber}${_filters}`
+      );
       const { data, lastPage } = response.data;
 
       pageNumber > 1 ? setPosts ([...posts, ...data]) : setPosts (data);
@@ -41,25 +43,15 @@ export default function Homepage () {
   return (
     <>
       <Banner>
-        <h2> Desenvolvido para compartilhar seu talento musical </h2>
-        <h3> Compartilhe suas músicas, letras e encontre novos talentos! </h3>
-        <br/>
-        {isAuthenticated () ?
-          <Link to='/upload' className='opt_link'>
-            Compartilhar ideia
-          </Link>
-        : 
-          <Link to='/login' className='opt_link'>
-            Entrar
-          </Link>
-        }
+        <h2> {getUserName ()} </h2>
+        <h3> Veja aqui todas as músicas e letras que você compartilhou </h3>
       </Banner>
       <Feed>
         <Filters onChange={filters => setFilters (filters)}/>
-        <PostList 
+        <PostList
           posts={posts}
           loading={loading}
-          onScroll={() => getPosts ()}
+          onScroll={() => getUserPosts ()}
           isLastPage={isLastPage ()}
         />
         <div style={{width: 260}}></div>

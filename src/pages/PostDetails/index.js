@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import RatingList from '../../components/RatingList';
+import RatingList from '../../components/List/RatingList';
 import Post from '../../components/Post';
 import { Container, EmptyItem } from './styles';
 

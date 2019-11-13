@@ -10,7 +10,18 @@ export const getToken = () => {
 
 export const getUserName = () => localStorage.getItem ('userName');
 export const getUserID = () => parseInt (localStorage.getItem ('userID'));
-export const getUserLevel = () => parseInt (localStorage.getItem ('userLevel'));
+
+export const getUserLevel = () => {
+  let level;
+  
+  switch (parseInt (localStorage.getItem ('userLevel'))) {
+    case comp_key: level = 'company'; break;
+    case adm_key: level = 'admin'; break;
+    case user_key: level = 'user'; break;
+    default: break;
+  }
+  return level;
+}
 
 export const login = data => {
   localStorage.setItem ('userToken', data.token);
@@ -26,6 +37,7 @@ export const logout = () => {
   localStorage.removeItem ('userLevel');
 };
 
-export const user_key = 4268;
-export const adm_key = 9317;
-export const comp_key = 5648;
+
+const user_key = 4268;
+const adm_key = 9317;
+const comp_key = 5648;
